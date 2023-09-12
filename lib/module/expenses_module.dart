@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:uuid/data.dart';
 import 'package:uuid/uuid.dart';
 
 const _uuid = Uuid();
@@ -36,5 +34,24 @@ class Expenses {
 
   String get getFormattedDate {
     return formatterDate.format(date);
+  }
+}
+
+class ExpensesBucket {
+  ExpensesBucket({required this.category, required this.listOfExpenses});
+
+  ExpensesBucket.forCategory(List<Expenses> allExpenses, this.category)
+      : listOfExpenses = allExpenses
+            .where((expense) => expense.category == category)
+            .toList();
+  final Category category;
+  final List<Expenses> listOfExpenses;
+
+  double get totalSum {
+    double sum = 0;
+    for (final expense in listOfExpenses) {
+      sum += expense.amount;
+    }
+    return sum;
   }
 }

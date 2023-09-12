@@ -1,3 +1,5 @@
+
+import 'package:expenses_app/chart/chart_widget.dart';
 import 'package:expenses_app/expenses_list.dart';
 import 'package:expenses_app/module/expenses_module.dart';
 import 'package:expenses_app/new_expense.dart';
@@ -11,7 +13,7 @@ class ExpensesScreen extends StatefulWidget {
 }
 
 class _ExpensesScreenState extends State<ExpensesScreen> {
-  List<Expenses> _expenses = [
+  final List<Expenses> _expenses = [
     Expenses(
         title: 'Taxi to work',
         amount: 15,
@@ -53,8 +55,8 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        duration: Duration(seconds: 3),
-        content: Text('get it back?'),
+        duration: const Duration(seconds: 3),
+        content: const Text('get it back?'),
         action: SnackBarAction(
           label: 'Undo',
           onPressed: () {
@@ -101,11 +103,11 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
       ),
       body: Column(
         children: [
-          const Expanded(
-            child: Placeholder(),
+          Expanded(
+            child: Chart(expenses: _expenses),
           ),
           Expanded(
-            flex: 4,
+            flex: 3,
             child: mainContent,
           )
         ],

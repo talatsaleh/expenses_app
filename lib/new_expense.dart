@@ -12,8 +12,8 @@ class NewExpense extends StatefulWidget {
 }
 
 class _NewExpenseState extends State<NewExpense> {
-  TextEditingController _titleController = TextEditingController();
-  TextEditingController _amountController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _amountController = TextEditingController();
   DateTime? _dateTime;
   DateTime now = DateTime.now();
 
@@ -100,7 +100,7 @@ class _NewExpenseState extends State<NewExpense> {
                   controller: _titleController,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Expanded(
@@ -141,12 +141,12 @@ class _NewExpenseState extends State<NewExpense> {
                   controller: _amountController,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Expanded(
                   child: TextButton.icon(
-                icon: Icon(Icons.date_range),
+                icon: const Icon(Icons.date_range),
                 label: Text(returnDateOrText()),
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.black,
@@ -164,7 +164,7 @@ class _NewExpenseState extends State<NewExpense> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('Cancel'),
+                child: const Text('Cancel'),
               ),
               ElevatedButton(
                 onPressed: _submittedData,
