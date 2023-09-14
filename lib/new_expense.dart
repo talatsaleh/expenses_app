@@ -82,98 +82,107 @@ class _NewExpenseState extends State<NewExpense> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                flex: 2,
-                child: TextField(
-                  maxLength: 50,
-                  keyboardType: TextInputType.name,
-                  decoration: const InputDecoration(
-                    label: Text('Title'),
-                  ),
-                  controller: _titleController,
-                ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: DropdownButton(
-                    hint: const Text(
-                      'Category',
-                    ),
-                    value: _selectCategory,
-                    items: Category.values.map((category) {
-                      return DropdownMenuItem(
-                        value: category,
-                        child: Text(
-                          category.name.toUpperCase(),
+    final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
+    return LayoutBuilder(builder: (ctx, constrains) {
+      return SizedBox(
+        height: double.infinity,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.only(
+                top: 10, right: 10, left: 10, bottom: keyboardSpace + 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: TextField(
+                        maxLength: 50,
+                        keyboardType: TextInputType.name,
+                        decoration: const InputDecoration(
+                          label: Text('Title'),
                         ),
-                      );
-                    }).toList(),
-                    onChanged: (selected) {
-                      if (selected == null) {
-                        return;
-                      }
-                      setState(() {
-                        _selectCategory = selected;
-                      });
-                    }),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  maxLength: 10,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    label: Text('Amount'),
-                    suffixText: 'E£',
-                  ),
-                  controller: _amountController,
+                        controller: _titleController,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: DropdownButton(
+                          hint: const Text(
+                            'Category',
+                          ),
+                          value: _selectCategory,
+                          items: Category.values.map((category) {
+                            return DropdownMenuItem(
+                              value: category,
+                              child: Text(
+                                category.name.toUpperCase(),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (selected) {
+                            if (selected == null) {
+                              return;
+                            }
+                            setState(() {
+                              _selectCategory = selected;
+                            });
+                          }),
+                    ),
+                  ],
                 ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                  child: TextButton.icon(
-                icon: const Icon(Icons.date_range),
-                label: Text(returnDateOrText()),
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.black,
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        maxLength: 10,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          label: Text('Amount'),
+                          suffixText: 'E£',
+                        ),
+                        controller: _amountController,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                        child: TextButton.icon(
+                      icon: const Icon(Icons.date_range),
+                      label: Text(returnDateOrText()),
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.black,
+                      ),
+                      onPressed: _showDataPicker,
+                    ))
+                  ],
                 ),
-                onPressed: _showDataPicker,
-              ))
-            ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    TextButton(
+                      style: TextButton.styleFrom(
+                          foregroundColor: Theme.of(context).colorScheme.error),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Cancel'),
+                    ),
+                    ElevatedButton(
+                      onPressed: _submittedData,
+                      child: const Text('Save Expense'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              TextButton(
-                style: TextButton.styleFrom(
-                    foregroundColor: Theme.of(context).colorScheme.error),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Cancel'),
-              ),
-              ElevatedButton(
-                onPressed: _submittedData,
-                child: const Text('Save Expense'),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+        ),
+      );
+    });
   }
 }

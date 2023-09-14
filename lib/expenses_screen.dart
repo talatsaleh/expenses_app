@@ -1,4 +1,3 @@
-
 import 'package:expenses_app/chart/chart_widget.dart';
 import 'package:expenses_app/expenses_list.dart';
 import 'package:expenses_app/module/expenses_module.dart';
@@ -13,6 +12,7 @@ class ExpensesScreen extends StatefulWidget {
 }
 
 class _ExpensesScreenState extends State<ExpensesScreen> {
+  late Orientation isPortratit;
   final List<Expenses> _expenses = [
     Expenses(
         title: 'Taxi to work',
@@ -71,6 +71,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 
   void _addExpensesPage() {
     showModalBottomSheet(
+      useSafeArea: true,
         isScrollControlled: true,
         context: context,
         builder: (ctx) {
@@ -82,6 +83,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    isPortratit = MediaQuery.of(context).orientation;
     Widget mainContent = const Center(
       child: Text('There is no Expenses '),
     );
@@ -101,17 +103,29 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Chart(expenses: _expenses),
-          ),
-          Expanded(
-            flex: 3,
-            child: mainContent,
-          )
-        ],
-      ),
+      body: isPortratit == Orientation.portrait
+          ? Column(
+              children: [
+                Expanded(
+                  child: Chart(expenses: _expenses),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: mainContent,
+                )
+              ],
+            )
+          : Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: mainContent,
+                ),
+                Expanded(
+                  child: Chart(expenses: _expenses),
+                )
+              ],
+            ),
     );
   }
 }
